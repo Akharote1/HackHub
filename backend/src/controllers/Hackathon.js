@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import Hackathon from "../models/Hackathon.js"
+import Team from "../models/Team.js"
 import { slugify } from "../utils.js"
 
 export const view = async (req, res) => {
@@ -21,6 +22,98 @@ export const view = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
+    res.send({
+      success: false,
+      message: "An error occurred"
+    })
+  }
+}
+
+export const statistics = async (req, res) => {
+  try {
+    const event = await Hackathon.findOne({'slug': req.params.slug})
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    const statistics = {
+      registration_count: event.registration_count,
+      ps_count: event.ps_list.length,
+      gender_counts: {
+        male: event.male_count,
+        female: event.female_count,
+        other: event.other_gender_count,
+        unknown: event.registration_count - event.male_count - event.female_count - event.other_gender_count
+      }
+    }
+
+    res.send({
+      success: true,
+      ...statistics
+    })
+  } catch (error) {
+    console.log(error)
+    res.send({
+      success: false,
+      message: "An error occurred"
+    })
+  }
+}
+
+export const listRegistrations = async (req, res) => {
+  try {
+    const event = await Hackathon.findOne({'slug': req.params.slug})
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    const registrations = await Team.find({ hackathon_id: event._id })
+      .populate("members.user_id", "name email phone gender")
+
+    res.send({
+      success: true,
+      registrations
+    })
+  } catch (error) {
+    console.log(error)
+    res.send({
+      success: false,
+      message: "An error occurred"
+    })
+  }
+}
+
+export const statements = async (req, res) => {
+  try {
+    const event = await Hackathon.findOne({'slug': req.params.slug})
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    res.send({
+      success: true,
+      statements: event.ps_list
+    })
+  } catch (error) {
+    console.log(error) 
     res.send({
       success: false,
       message: "An error occurred"

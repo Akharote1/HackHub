@@ -135,6 +135,18 @@ const eventSchema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	male_count: {
+		type: Number,
+		default: 0
+	},
+	female_count: {
+		type: Number,
+		default: 0
+	},
+	other_gender_count: {
+		type: Number,
+		default: 0
+	},
 	ps_release_date: mongoose.SchemaTypes.Date,
 	ps_form_start: mongoose.SchemaTypes.Date,
 	ps_form_end: mongoose.SchemaTypes.Date,
@@ -148,6 +160,11 @@ const eventSchema = new mongoose.Schema({
 			},
 			description: {
 				type: String,
+				required: true
+			},
+			allot_limit: {
+				type: Number,
+				default: -1,
 				required: true
 			},
 			domains: [{

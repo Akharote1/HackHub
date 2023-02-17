@@ -10,6 +10,12 @@ router.get('/list', HackathonController.list)
 
 router.get('/view/:slug', HackathonController.view)
 
+router.get('/statistics/:slug', HackathonController.statistics)
+
+router.get('/ps/:slug', HackathonController.statements)
+
+router.get('/registrations/:slug', HackathonController.listRegistrations)
+
 router.post('/create', 
   authenticate,
   validateInput,

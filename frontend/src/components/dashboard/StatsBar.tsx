@@ -2,14 +2,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarChart, faCheckCircle, faBookmark, faChessKing } from "@fortawesome/free-regular-svg-icons"
 import { Card, Col, Row } from "react-bootstrap";
 
-export default function StatsBar() {
+export default function StatsBar({statistics}) {
   return (
     <Row xs={12}>
       <Col xs={3}>
         <Card
          className="p-4">
           <span className=" fs-1">
-            2500</span>
+            {statistics.registration_count}
+          </span>
           <span className=" fw-semibold text-black-50 fs-5">
             <FontAwesomeIcon 
               icon={faBarChart}
@@ -33,7 +34,7 @@ export default function StatsBar() {
 
       <Col xs={3}>
         <Card className="p-4">
-          <span className=" fs-1">6</span>
+          <span className=" fs-1">{statistics.ps_count}</span>
           <span className=" fw-semibold text-black-50 fs-5">
             <FontAwesomeIcon 
               icon={faChessKing}

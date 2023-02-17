@@ -18,35 +18,38 @@ import { useContext, useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 
 const Sidebar = () => {
+	const router = useRouter();
+	const slug = router.query.slug;
+
 	const navLinks = [
 		{
 			title: 'Dashboard',
 			icon: faChartPie,
-			href: '/myhackathon/abcd',
+			href: `/myhackathon/${slug}`,
 			pathname: '/myhackathon/[slug]'
 		},
 		{
 			title: 'Registrations',
 			icon: faRocket,
-			href: '/myhackathon/abcd/registrations',
+			href: `/myhackathon/${slug}/registrations`,
 			pathname: '/myhackathon/[slug]/registrations'
 		},
 		{
 			title: 'Screening',
-			href: '/myhackathon/acbd/screening',
+			href: `/myhackathon/${slug}/screening`,
 			icon: faShieldAlt,
 			pathname: '/myhackathon/[slug]/screening'
 		},
 		{
 			title: 'Problem Statements',
 			icon: faBuilding,
-			href: '/myhackathon/abcd/statements',
+			href: `/myhackathon/${slug}/statements`,
 			pathname: '/myhackathon/[slug]/statements'
 		},
 		{
 			title: 'Submissions',
 			icon: faBuilding,
-			href: '/myhackathon/abcd/submissions',
+			href: `/myhackathon/${slug}/submissions`,
 			pathname: '/myhackathon/[slug]/submissions'
 		},
 	];

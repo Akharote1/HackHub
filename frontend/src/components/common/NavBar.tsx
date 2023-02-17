@@ -1,16 +1,35 @@
 import { useUser } from "../../hooks/AuthContext";
 import { getUserAvatar } from "../../utils";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import axiosClient from "../../services/axios-client";
 
 export default function NavBar() {
   const { user } = useUser();
   const [dropdownActive, setDropdownActive] = useState(false);
+  const [pageTitle, setPageTitle] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axiosClient.get('/hackathon/view/'+router.query.slug);
+        setPageTitle(res.data.event.name)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if (router.asPath.startsWith('/myhackathon')) {
+      fetchData()
+    }
+  }, [router.asPath])
 
   return (
     <div className="hh-navbar">
       <span className=" fw-bolder fs-3">HackHub</span>
-      <span className=" flex-grow-1 text-center">S.P.I.T Hackathon 2023</span>
+      <span className=" flex-grow-1 text-center fs-5 fw-semibold">{pageTitle}</span>
       <div className=" ms-auto flex items-center nav-user"
         onClick={() => {
           setDropdownActive(!dropdownActive)

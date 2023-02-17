@@ -36,8 +36,16 @@ export const register = async (req, res) => {
       })
     }
 
+    const genderCounts = {
+      'male': 0,
+      'female': 0,
+      'other': 0,
+      'unknown': 0
+    }
+
     for (let i = 0; i < members.length; i++) {
       const member = await User.findOne({_id: members[i].user_id})
+      genderCounts[member.gender] += 1;
       if (member.teams.filter(team => event.teams.includes(team)).length != 0) {
         return res.send({
           success: false,
@@ -57,6 +65,10 @@ export const register = async (req, res) => {
     
     user.teams.push(team._id)
     event.teams.push(team._id)
+    event.registration_count += members.length;
+    event.male_count += genderCounts['male'];
+    event.female_count += genderCounts['female'];
+    event.other_gender_count += genderCounts['other'];
 
     const teamResult = await team.save()
     await user.save()

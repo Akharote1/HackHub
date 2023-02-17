@@ -49,13 +49,22 @@ var data = {
   ],
 };
 
-function Chart1() {
+function Chart1({statistics}) {
   return (
     <Card className="p-2 w-100" style={{height: 320}}>
       <Bar
         className="w-100"
         options={options}
-        data={{ labels: data.labels, datasets: data.data }}
+        data={{ labels: data.labels, datasets: [
+          {
+            data: [
+              statistics.gender_counts.male,
+              statistics.gender_counts.female,
+              statistics.gender_counts.other,
+              statistics.gender_counts.unknown,
+            ]
+          }
+        ] }}
       />
     </Card>
   );
