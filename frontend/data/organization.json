@@ -1,0 +1,46 @@
+{
+	"organization": [
+		"Sardar Patel Institute of Technology",
+		"DJ Sanghvi",
+		"VJTI",
+		"IIT Bombay",
+		"IIT Delhi",
+		"IIT Kanpur",
+		"IIT Kharagpur",
+		"IIT Madras"
+	],
+	"domains": [
+		{
+			"label": "Web Development",
+			"id": "web-dev"
+		},
+		{
+			"label": "App Development",
+			"id": "app-dev"
+		},
+		{
+			"label": "Blockchain",
+			"id": "blockchain"
+		},
+		{
+			"label": "Artificatial Intelligence & Machine Learning",
+			"id": "ai/ml"
+		},
+		{
+			"label": "Cloud Computing",
+			"id": "cloud"
+		},
+		{
+			"label": "Internet of Things",
+			"id": "iot"
+		},
+		{
+			"label": "Augmented Reality & Virtual Reality",
+			"id": "ar-vr"
+		},
+		{
+			"label": "Social Cause",
+			"id": "social-cause"
+		}
+	]
+}
