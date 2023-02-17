@@ -6,6 +6,7 @@ const teamSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	registration_time: mongoose.SchemaTypes.Date,
 	members: {
 		type: [{
 			user_id: {
@@ -16,12 +17,25 @@ const teamSchema = new mongoose.Schema({
 		}],
 		required: true
 	},
-	abstract_link: String,
+	abstract_text: String,
 	presentation_link: String,
 	ps_preferences: [Number],
 	ps_allotment: {
 		title: String,
 		number: Number
+	},
+	screening_submitted: {
+		type: Boolean,
+		default: false
+	},
+	hackathon_name: String,
+	hackathon_id: {
+		type: mongoose.SchemaTypes.ObjectId,
+		ref: 'Hackathon'
+	},
+	shortlisted: {
+		type: Boolean,
+		default: false
 	}
 })
 

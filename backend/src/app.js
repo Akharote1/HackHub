@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import HackathonRouter from './routes/Hackathon.js'
 import UserRouter from './routes/User.js'
+import TeamRouter from './routes/Team.js'
 
 const app = express()
 const port = process.env.PORT || 17120
@@ -17,6 +18,7 @@ app.use(cors())
 
 app.use('/hackathon', HackathonRouter)
 app.use('/user', UserRouter)
+app.use('/team', TeamRouter)
 
 app.listen(port, () => {
   console.log(`HackHub Server listening on port ${port}`)

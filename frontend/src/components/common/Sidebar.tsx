@@ -18,31 +18,39 @@ import { useContext, useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 
 const Sidebar = () => {
+	const router = useRouter();
+	const slug = router.query.slug;
+
 	const navLinks = [
 		{
 			title: 'Dashboard',
 			icon: faChartPie,
-			href: '/event/dashboard'
+			href: `/myhackathon/${slug}`,
+			pathname: '/myhackathon/[slug]'
 		},
 		{
 			title: 'Registrations',
 			icon: faRocket,
-			href: '/event/registrations',
+			href: `/myhackathon/${slug}/registrations`,
+			pathname: '/myhackathon/[slug]/registrations'
 		},
 		{
 			title: 'Screening',
-			href: '/event/screening',
+			href: `/myhackathon/${slug}/screening`,
 			icon: faShieldAlt,
+			pathname: '/myhackathon/[slug]/screening'
 		},
 		{
 			title: 'Problem Statements',
 			icon: faBuilding,
-			href: '/event/problems',
+			href: `/myhackathon/${slug}/statements`,
+			pathname: '/myhackathon/[slug]/statements'
 		},
 		{
 			title: 'Submissions',
 			icon: faBuilding,
-			href: '/event/submissions',
+			href: `/myhackathon/${slug}/submissions`,
+			pathname: '/myhackathon/[slug]/submissions'
 		},
 	];
 
@@ -59,7 +67,7 @@ const Sidebar = () => {
 
 const SidebarItem = ({ item }) => {
 	const router = useRouter();
-	const isSelected = item.href == router.asPath;
+	const isSelected = item?.pathname == router.pathname || item.href == router.asPath;
 
 	return (
 		<Link href={item.href || '/'} legacyBehavior>

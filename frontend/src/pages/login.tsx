@@ -13,6 +13,7 @@ import data from "../../data/organization.json";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useUser } from "../hooks/AuthContext";
 
 function Login() {
 	const router = useRouter();
@@ -20,10 +21,10 @@ function Login() {
 		email: "",
 		password: "",
 	});
+	const { user, login } = useUser();
+	const [loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		console.log(userInfo);
-	}, [userInfo]);
+	const disabled = userInfo.email == "" || userInfo.password == "" || loading;
 
 	return (
 		<div
@@ -37,12 +38,20 @@ function Login() {
 		>
 			<Form
 				className="w-50 h-100 pl-l-5 d-flex flex-column justify-content-center form"
-				onSubmit={(e) => {
+				onSubmit={async (e) => {
 					e.preventDefault();
-					console.log(userInfo);
+					setLoading(true)
+					try {
+						await login(userInfo)
+						router.push('/')
+					} catch (error) {
+						console.log(error)
+					}
+					setLoading(false)
+					
 				}}
 			>
-				<h1 className="ms-5 mb-5">Welcome!</h1>
+				<h1 className="ms-5 mb-5">Welcome to HackHub!</h1>
 				{/* <div> */}
 				<div className="d-flex pl-xl-5 flex-column  w-100 px-lg-5">
 					<InputBox
@@ -68,7 +77,7 @@ function Login() {
 
 					<div className="d-flex flex-column w-100">
 						<Link href="/register">Don't have an account? Register</Link>
-						<Button className="w-25 mt-5" variant="primary" type="submit">
+						<Button className="w-25 mt-5" variant="primary" type="submit" disabled={disabled}>
 							Submit
 						</Button>
 					</div>

@@ -5,7 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import Head from "next/head";
 import { SSRProvider } from "react-bootstrap";
-import Layout from "../components/common/Layout";
+import DashboardLayout from "../components/common/DashboardLayout";
+import { AuthProvider } from "../hooks/AuthContext";
+import GeneralLayout from "../components/common/GeneralLayout";
 
 config.autoAddCss = false;
 
@@ -15,7 +17,7 @@ function MyApp({ Component, pageProps }) {
 		((page) => {
 			return (
 				<SSRProvider>
-					<Layout>{page}</Layout>
+					<GeneralLayout>{page}</GeneralLayout>
 				</SSRProvider>
 			);
 		});
@@ -26,7 +28,9 @@ function MyApp({ Component, pageProps }) {
 				<title>HackHub</title>
 				<style>{dom.css()}</style>
 			</Head>
-			{getLayout(<Component {...pageProps} />)}
+			<AuthProvider>
+				{getLayout(<Component {...pageProps} />)}
+			</AuthProvider>
 			<ToastContainer />
 		</>
 	);

@@ -2,7 +2,7 @@ import NavBar from "./NavBar";
 import Sidebar from "./Sidebar";
 import Transition from "./Transition";
 
-const Layout = ({children}) => {
+const DashboardLayout = ({children}) => {
   return (
     <div className='layout-container'>
       <NavBar />
@@ -10,7 +10,7 @@ const Layout = ({children}) => {
         <Sidebar />
         <div className='main'>
           <Transition>
-            <div>
+            <div className="w-100">
               {children}
             </div>
           </Transition>
@@ -20,4 +20,4 @@ const Layout = ({children}) => {
   )
 }
 
-export default Layout;
+export default DashboardLayout;
