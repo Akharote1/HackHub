@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import axiosClient from "../services/axios-client";
 
-const authContext = React.createContext(null);
+const AuthContext = React.createContext(null);
 
-export function AuthContext({children}) {
+export function AuthProvider({children}) {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const cookies = new Cookies();
@@ -19,31 +19,26 @@ export function AuthContext({children}) {
   }, []);
 
   const login = async (formData) => {
-    await axiosClient
-      .post("/user/login", formData)
-      .then(function (response) {
-        const res = response.data;
-        res.type = formData.type;
+    const response = await axiosClient
+      .post("/user/login", formData);
+    const res = response.data;
 
-        setUser(res);
-        cookies.set("user", JSON.stringify(res), {
-          path: "/",
-          maxAge: 2592000,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    console.log(res.user)
+
+    setUser(res.user);
+    cookies.set("token", res.token);
+    cookies.set("user", JSON.stringify(res.user));
   };
 
   const logout = () => {
     cookies.remove("user");
+    cookies.remove("token");
     setUser(null);
     router.push("/login");
   };
 
   return (
-    <authContext.Provider
+    <AuthContext.Provider
       value={{
         user,
         login,
@@ -51,10 +46,10 @@ export function AuthContext({children}) {
       }}
     >
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
 export function useUser() {
-  return useContext(authContext);
+  return useContext(AuthContext);
 }

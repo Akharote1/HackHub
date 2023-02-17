@@ -2,6 +2,7 @@ import User from "../models/User.js"
 import bcrypt from "bcryptjs"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
+import Hackathon from "../models/Hackathon.js"
 
 export const register = async (req, res) => {
   try {
@@ -75,7 +76,8 @@ export const login = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      token: token
+      token: token,
+      user
     })
 
   } catch (err) {
@@ -109,6 +111,37 @@ export const find = async (req, res) => {
     return res.status(200).json({
       success: true,
       user: user
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const myListings = async (req, res) => {
+  try {
+
+    const user = req.user;
+
+    if(!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'User not found'
+      })
+    }
+
+    const hackathons = await Hackathon.find({organizers: user._id}, [
+      "_id", "slug", "name", "organizer_name", "online", "event_date", "registration_count"
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      listings: hackathons
     })
 
   } catch (err) {

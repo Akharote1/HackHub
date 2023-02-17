@@ -1,3 +1,5 @@
+import DashboardLayout from "../../../components/common/DashboardLayout";
+
 const Screening = function () {
   return (
     <div className="p-5">
@@ -8,5 +10,7 @@ const Screening = function () {
     </div>
   )
 }
+
+Screening.getLayout = (page) => (<DashboardLayout>{page}</DashboardLayout>);
 
 export default Screening;

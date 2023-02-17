@@ -1,6 +1,7 @@
 import { faDownload, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, Form, InputGroup, Button } from "react-bootstrap";
+import DashboardLayout from "../../../components/common/DashboardLayout";
 import RegistrationTable from "../../../components/registrations/RegistrationTable";
 
 const Registrations = function () {
@@ -43,5 +44,7 @@ const Registrations = function () {
     </div>
   )
 }
+
+Registrations.getLayout = (page) => (<DashboardLayout>{page}</DashboardLayout>);
 
 export default Registrations;

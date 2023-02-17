@@ -28,6 +28,11 @@ router.get('/find',
   (req, res) => UserController.find(req, res)
 )
 
+router.get('/listings',
+  authenticate,
+  (req, res) => UserController.myListings(req, res)
+)
+
 
 // router.get('/data',
 //   authenticate,

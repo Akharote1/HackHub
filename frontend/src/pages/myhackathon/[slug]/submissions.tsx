@@ -1,3 +1,5 @@
+import DashboardLayout from "../../../components/common/DashboardLayout";
+
 const Submissions = function () {
   return (
     <div className="p-5">
@@ -9,4 +11,5 @@ const Submissions = function () {
   )
 }
 
+Submissions.getLayout = (page) => (<DashboardLayout>{page}</DashboardLayout>);
 export default Submissions;

@@ -4,6 +4,7 @@ import Chart1 from "../../../components/dashboard/Chart1";
 import Chart2 from "../../../components/dashboard/Chart2";
 import StatsBar from "../../../components/dashboard/StatsBar";
 import QRCode from "react-qr-code";
+import DashboardLayout from "../../../components/common/DashboardLayout";
 
 const Dashboard = function () {
   return (
@@ -49,4 +50,5 @@ const Dashboard = function () {
   )
 }
 
+Dashboard.getLayout = (page) => (<DashboardLayout>{page}</DashboardLayout>);
 export default Dashboard;
