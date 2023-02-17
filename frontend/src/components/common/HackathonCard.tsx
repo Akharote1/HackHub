@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { Button } from "react-bootstrap";
+import Link from "next/link";
 
 function HackathonCard({ hackathon }) {
 	return (
-		<div
+		<Link
+			href={"/events/" + hackathon.slug}
 			className="bg-white mb-5"
 			style={{
 				height: "300px",
@@ -15,6 +17,7 @@ function HackathonCard({ hackathon }) {
 				boxShadow: "0px 4px 8px #040f3c4c",
 				borderRadius: "10px",
 				padding: "20px",
+				textDecoration: 'none'
 			}}
 		>
 			<h2>{hackathon.name}</h2>
@@ -57,7 +60,7 @@ function HackathonCard({ hackathon }) {
 							borderRadius: "10px",
 						}}
 					>
-						{hackathon.mode.charAt(0).toUpperCase() + hackathon.mode.slice(1)}
+						{hackathon.online ? 'Online' : 'Offline'}
 					</div>
 					<div
 						className="me-3"
@@ -83,7 +86,7 @@ function HackathonCard({ hackathon }) {
 				</div>
 				<Button>Apply Now</Button>
 			</div>
-		</div>
+		</Link>
 	);
 }
 

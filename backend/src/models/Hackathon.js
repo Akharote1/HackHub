@@ -44,6 +44,14 @@ const screeningSchema = new mongoose.Schema({
 	}
 })
 
+const communicationSchema = new mongoose.Schema({
+	date: {
+		type: mongoose.SchemaTypes.Date,
+		default: new Date(),
+		required: true
+	}
+})
+
 const eventSchema = new mongoose.Schema({
 	slug: {
 		type: String,
@@ -87,6 +95,11 @@ const eventSchema = new mongoose.Schema({
 	color: {
 		type: String,
 		required: false
+	},
+	communications: {
+		type: [communicationSchema],
+		required: true,
+		default: []
 	},
 	teams: {
 		type: [{

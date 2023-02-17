@@ -62,7 +62,7 @@ const Dashboard = function () {
               }}
               className=" mb-5"
             >Share Link</span>
-            <QRCode size={120} value="hey" />
+            <QRCode size={120} value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 
             <Button size="sm" className="mt-4">
               Copy Link

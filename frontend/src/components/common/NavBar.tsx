@@ -28,7 +28,7 @@ export default function NavBar() {
 
   return (
     <div className="hh-navbar">
-      <span className=" fw-bolder fs-3">HackHub</span>
+      <Link href="/" className=" fw-bolder fs-3">HackHub</Link>
       <span className=" flex-grow-1 text-center fs-5 fw-semibold">{pageTitle}</span>
       <div className=" ms-auto flex items-center nav-user"
         onClick={() => {
