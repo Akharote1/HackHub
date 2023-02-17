@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { body, validationResult } from "express-validator";
+import authenticate from "../middleware/authenticate.js";
 import validateInput from "../middleware/validate.js";
 import * as UserController from "./../controllers/User.js"
 
@@ -21,6 +22,10 @@ router.post('/login',
   body('password').isString().isLength({ min: 6, max: 64 }),
   validateInput,
   (req, res) => UserController.login(req, res)
+)
+
+router.get('/find',
+  (req, res) => UserController.find(req, res)
 )
 
 

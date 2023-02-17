@@ -39,6 +39,21 @@ const userSchema = new mongoose.Schema({
 			required: true
 		}]
 	},
+	events_organized: {
+		type: [{
+			type: mongoose.SchemaTypes.ObjectId,
+			ref: 'Hackathon',
+		}],
+		default: []
+	},
+	teams: {
+		type: [{
+			type: mongoose.SchemaTypes.ObjectId,
+			ref: 'Team',
+		}],
+		default: [],
+		required: true
+	}
 })
 
 export default connection.model('User', userSchema)

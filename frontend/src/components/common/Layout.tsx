@@ -10,7 +10,7 @@ const Layout = ({children}) => {
         <Sidebar />
         <div className='main'>
           <Transition>
-            <div>
+            <div className="w-100">
               {children}
             </div>
           </Transition>

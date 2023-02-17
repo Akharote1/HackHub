@@ -55,12 +55,48 @@ export const create = async (req, res) => {
       organizers: [user._id],
       organizer_name: req.body.organizer_name
     });
-
+    
+    user.events_organized.push(event._id)
     const eventResult = await event.save()
+    await user.save()
 
     return res.status(200).json({
       success: true,
       hackathon: eventResult
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+
+export const updatePS = async (req, res) => {
+  try {
+    const user = req.user;
+    const event = await Hackathon.findOne({'slug': req.params.slug})
+    
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    const updatedPS = req.body.statements;
+    event.ps_list = updatedPS;
+    await event.save()
+
+    return res.status(200).json({
+      success: true,
+      statements: event.ps_list
     })
 
   } catch (err) {

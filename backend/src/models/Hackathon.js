@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 import connection from '../services/database.js'
 
 const screeningSchema = new mongoose.Schema({
+	start_date: {
+		type: mongoose.SchemaTypes.Date,
+		default: new Date(),
+		required: true
+	},	
+	end_date: {
+		type: mongoose.SchemaTypes.Date,
+		default: new Date(),
+		required: true
+	},
 	resume_required: {
 		type: Boolean,
 		required: true,
@@ -78,6 +88,14 @@ const eventSchema = new mongoose.Schema({
 		type: String,
 		required: false
 	},
+	teams: {
+		type: [{
+			type: mongoose.SchemaTypes.ObjectId,
+			ref: 'Team'
+		}],
+		default: [],
+		required: true
+	},
 	domains: {
 		type: [{
 			type: String,
@@ -112,6 +130,10 @@ const eventSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 4
+	},
+	registration_count: {
+		type: Number,
+		default: 0
 	},
 	ps_release_date: mongoose.SchemaTypes.Date,
 	ps_form_start: mongoose.SchemaTypes.Date,

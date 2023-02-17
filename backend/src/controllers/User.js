@@ -87,3 +87,36 @@ export const login = async (req, res) => {
     })
   }
 }
+
+export const find = async (req, res) => {
+  try {
+    if(!req.query.email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required as a query param'
+      })
+    }
+
+    const user = await User.findOne({email: req.query.email.toLowerCase()}, ['name', '_id', 'email', 'college'])
+
+    if(!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Oopsie, we could not find a user associated with that email address.'
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: user
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
