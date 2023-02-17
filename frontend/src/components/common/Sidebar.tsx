@@ -3,6 +3,7 @@ import {
 	faCalendarAlt,
 	faCaretDown,
 	faChartPie,
+	faEnvelope,
 	faPizzaSlice,
 	faRocket,
 	faShield,
@@ -51,6 +52,12 @@ const Sidebar = () => {
 			icon: faBuilding,
 			href: `/myhackathon/${slug}/submissions`,
 			pathname: '/myhackathon/[slug]/submissions'
+		},
+		{
+			title: 'Communication',
+			icon: faEnvelope,
+			href: `/myhackathon/${slug}/communication`,
+			pathname: '/myhackathon/[slug]/communication'
 		},
 	];
 

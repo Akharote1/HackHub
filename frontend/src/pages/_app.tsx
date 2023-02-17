@@ -1,4 +1,4 @@
-import "../../styles/globals.css";
+import '../../styles/globals.css'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -36,4 +36,4 @@ function MyApp({ Component, pageProps }) {
 	);
 }
 
-export default MyApp;
+export default MyApp
