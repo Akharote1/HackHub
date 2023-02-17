@@ -20,7 +20,7 @@ function submission(){
 					</FormGroup>
                     <div className="" >
                     <FormGroup className="w-100 mb-4 me-4">
-							<FormLabel>Video Presentation</FormLabel>
+							<FormLabel><b>Video Presentation</b></FormLabel>
 							<DropFileUpload
 								text=" Video"
 								multiple={false}
@@ -33,7 +33,7 @@ function submission(){
 					</div>
                     <div className="" >
                     <FormGroup className="w-100 mb-3 me-4">
-							<FormLabel>Presentation</FormLabel>
+							<FormLabel><b>Presentation</b></FormLabel>
 							<DropFileUpload
 								text=" presentation"
 								multiple={false}
