@@ -5,7 +5,8 @@ import morgan from 'morgan'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import EventRouter from './routes/Event.js'
+import HackathonRouter from './routes/Hackathon.js'
+import UserRouter from './routes/User.js'
 
 const app = express()
 const port = process.env.PORT || 17120
@@ -14,7 +15,8 @@ app.use(morgan('tiny'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use('/event', EventRouter)
+app.use('/hackathon', HackathonRouter)
+app.use('/user', UserRouter)
 
 app.listen(port, () => {
   console.log(`HackHub Server listening on port ${port}`)
