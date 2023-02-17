@@ -1,0 +1,42 @@
+{
+	"hackathons": [
+		{
+			"name": "Hackathon 1",
+			"mode": "offline",
+			"venue": "Location 1",
+			"event_start": "2023-02-01",
+			"event_end": "2023-03-03",
+			"registration_start": "2023-02-01",
+			"registration_end": "2023-02-20"
+		},
+		{
+			"name": "Hackathon 2",
+			"mode": "online",
+			"venue": "Location 2",
+			"event_start": "2023-03-02",
+			"event_end": "2023-03-04",
+			"registration_start": "2023-02-02",
+			"registration_end": "2023-02-25"
+		},
+		{
+			"name": "Hackathon 3",
+			"mode": "offline",
+
+			"venue": "Location 3",
+			"event_start": "2023-02-10",
+			"event_end": "2023-02-12",
+			"registration_start": "2023-02-03",
+			"registration_end": "2023-02-23"
+		},
+		{
+			"name": "Hackathon 4",
+			"mode": "online",
+
+			"venue": "Location 4",
+			"event_start": "2023-05-04",
+			"event_end": "2023-05-06",
+			"registration_start": "2023-04-04",
+			"registration_end": "2023-04-30"
+		}
+	]
+}

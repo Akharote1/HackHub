@@ -1,0 +1,54 @@
+{
+	"statements": [
+		{
+			"title": "Statement 1",
+			"description": "Description 1",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 2",
+			"description": "Description 2",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 3",
+			"description": "Description 3",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 4",
+			"description": "Description 4",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 5",
+			"description": "Description 5",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 6",
+			"description": "Description 6",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 7",
+			"description": "Description 7",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 8",
+			"description": "Description 8",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 9",
+			"description": "Description 9",
+			"domains": ["web-dev", "iot", "mobile"]
+		},
+		{
+			"title": "Statement 10",
+			"description": "Description 10",
+			"domains": ["web-dev", "iot", "mobile"]
+		}
+	]
+}
