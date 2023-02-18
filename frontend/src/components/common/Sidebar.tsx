@@ -36,22 +36,10 @@ const Sidebar = () => {
 			pathname: '/myhackathon/[slug]/registrations'
 		},
 		{
-			title: 'Screening',
-			href: `/myhackathon/${slug}/screening`,
-			icon: faShieldAlt,
-			pathname: '/myhackathon/[slug]/screening'
-		},
-		{
 			title: 'Problem Statements',
 			icon: faBuilding,
 			href: `/myhackathon/${slug}/statements`,
 			pathname: '/myhackathon/[slug]/statements'
-		},
-		{
-			title: 'Submissions',
-			icon: faBuilding,
-			href: `/myhackathon/${slug}/submissions`,
-			pathname: '/myhackathon/[slug]/submissions'
 		},
 		{
 			title: 'Communication',

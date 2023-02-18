@@ -4,9 +4,10 @@ import {useState, useEffect} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axiosClient from "../../services/axios-client";
+import { Button } from "react-bootstrap";
 
 export default function NavBar() {
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const [dropdownActive, setDropdownActive] = useState(false);
   const [pageTitle, setPageTitle] = useState("");
   const router = useRouter();
@@ -35,26 +36,44 @@ export default function NavBar() {
           setDropdownActive(!dropdownActive)
         }}
       >
-        <img 
-          className=" rounded-circle me-2"
-          style={{width: 36, height: 36}}
-          src={getUserAvatar(user?.name)}
-        />
-        <span>{user?.name}</span>
+        {user && (
+          <>
+            <img 
+              className=" rounded-circle me-2"
+              style={{width: 36, height: 36}}
+              src={getUserAvatar(user?.name)}
+            />
+            <span>{user?.name}</span>
+          </>
+        )}
+        
+        {!user && (
+          <Link href="/login">
+            <Button>
+              Login
+            </Button>
+          </Link>
+        )}
 
-        <div className="nav-drop"
-          style={{display: (dropdownActive ? 'flex' : 'none')}}
-        >
-          <NavItem href="/listings" title="My listings" />
-          <NavItem href="/create" title="Host a hackathon" />
-        </div>
+        {user && (
+          <div className="nav-drop"
+              style={{display: (dropdownActive ? 'flex' : 'none')}}
+            >
+              <NavItem href="/listings" title="My listings" />
+              <NavItem href="/create" title="Host a hackathon" />
+              <NavItem onClick={() => {
+                logout()
+                router.push('/')
+              }} href="#logout" title="Logout" />
+            </div>
+        )}
       </div>
     </div>
   )
 }
 
-function NavItem({href, title}) {
+function NavItem({href, title, onClick = () => {}}) {
   return (
-    <Link href={href}>{title}</Link>
+    <Link href={href} onClick={onClick}>{title}</Link>
   )
 }

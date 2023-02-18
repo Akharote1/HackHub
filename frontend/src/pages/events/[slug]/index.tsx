@@ -140,10 +140,10 @@ const Event = () => {
             )}
 
             {eventData.ps_form_released && teamData && (
-              <Link href={teamData?.ps_preferences ? '#' : `/events/${router.query.slug}/preference`}>
-                <Button disabled={teamData?.ps_preferences}>
+              <Link href={teamData?.ps_preferences?.length != 0 ? '#' : `/events/${router.query.slug}/preference`}>
+                <Button disabled={teamData?.ps_preferences?.length != 0}>
                   <FontAwesomeIcon icon={faWpforms} className="me-2" />
-                  {teamData?.ps_preferences ? 'PS Preference Filled' : 'Fill PS Preferences'}
+                  {teamData?.ps_preferences?.length != 0  ? 'PS Preference Filled' : 'Fill PS Preferences'}
                   
                 </Button>
               </Link>

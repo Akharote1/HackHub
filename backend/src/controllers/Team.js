@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Hackathon from "../models/Hackathon.js";
 import Team from "../models/Team.js";
 import User from "../models/User.js";
+import { notify } from "../services/mail.js";
 import { slugify } from "../utils.js";
 
 export const register = async (req, res) => {
@@ -105,7 +106,8 @@ export const submitScreening = async (req, res) => {
       )
     }
     
-    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id });
+    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id })
+      .populate("members.user_id", "name email phone gender");
     
     if (team.screening_submitted) {
       return (
@@ -123,6 +125,9 @@ export const submitScreening = async (req, res) => {
     team.screening_submitted = true;
 
     await team.save()
+
+    notify(team.members.map(x => x.user_id.email), 'Round 1 Submitted | ' + event.name, 
+      'You have successfully submitted round 1 of the hackathon.')
 
     return res.status(200).json({
       success: true,
@@ -143,7 +148,8 @@ export const submitPreferences = async (req, res) => {
   try {
     const user = req.user;
     const event = await Hackathon.findOne({ slug: req.params.slug });
-    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id });
+    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id })
+      .populate("members.user_id", "name email phone gender");
 
     if (!event) {
       return (
@@ -157,6 +163,10 @@ export const submitPreferences = async (req, res) => {
     team.ps_preferences = req.body.preferences;
 
     await team.save()
+
+    notify(team.members.map(x => x.user_id.email), 'PS Preference Submitted | ' + event.name, 
+      'You have successfully submitted your PS preferences as the following: ' 
+      + team.ps_preferences.map(x => 'PS ' + x).join(', '))
 
     return res.status(200).json({
       success: true,
