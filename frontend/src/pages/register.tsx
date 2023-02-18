@@ -12,6 +12,7 @@ import InputBox from "../components/misc/InputBox";
 import data from "../../data/organization.json";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import axiosClient from "../services/axios-client";
 
 function Register() {
 	const router = useRouter();
@@ -22,7 +23,7 @@ function Register() {
 		confirmpassword: "",
 		phone: "",
 		gender: "",
-		organization: "",
+		college: "",
 	});
 	const { organization } = data;
 	const dropdownAge = [
@@ -30,6 +31,14 @@ function Register() {
 		{ value: "Female", label: "Female" },
 		{ value: "Other", label: "Other" },
 	];
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (userInfo.password === userInfo.confirmpassword) {
+			const user = await axiosClient.post("/user/register", userInfo);
+			console.log(user);
+		}
+	};
 
 	useEffect(() => {
 		console.log(userInfo);
@@ -53,6 +62,7 @@ function Register() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					console.log(userInfo);
+					handleSubmit(e);
 				}}
 			>
 				<h1 className="ms-5 mb-5">Welcome!</h1>
@@ -130,7 +140,7 @@ function Register() {
 						<FormLabel>College Name</FormLabel>
 						<FormSelect
 							onChange={(e) => {
-								setUserInfo({ ...userInfo, organization: e.target.value });
+								setUserInfo({ ...userInfo, college: e.target.value });
 							}}
 							style={{ width: "75%" }}
 						>

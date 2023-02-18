@@ -12,27 +12,33 @@ import { uploadFilesToCloud } from "../utils";
 import organization from "../../data/organization.json";
 import { Badge } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import axiosClient from "../services/axios-client";
 
 function Create() {
 	const [hackathonInfo, setHackathonInfo] = useState({
 		name: "",
-		posterImage: "",
-		headerImage: "",
-		location: "",
+		poster_image: "",
+		header_image: "",
+		venue: "",
 		mode: "",
 		domain: new Set(),
 		description: "",
-		startDate: "",
-		endDate: "",
-		registrationStartDate: "",
-		registrationEndDate: "",
-		registrationFee: "",
-		minTeamSize: "",
-		maxTeamSize: "",
+		event_date: "",
+		registration_start: "",
+		registration_end: "",
+		min_team_size: "",
+		max_team_size: "",
 		resumeRequired: false,
 		screening: false,
-		screeningRoundStartDate: "",
-		screeningRoundEndDate: "",
+		screeningData: {
+			start_date: "",
+			end_date: "",
+			resume_required: false,
+			abstract_required: false,
+			abstract_limit_start: "",
+			abstract_limit_end: "",
+			presentation_required: false,
+		},
 		submissionGuidelines: "",
 		abstractRequired: false,
 		abstractMinLength: "",
@@ -60,8 +66,8 @@ function Create() {
 			);
 			setHackathonInfo({
 				...hackathonInfo,
-				posterImage: posterImageLink[0],
-				headerImage: headerImageLink[0],
+				poster_image: posterImageLink[0],
+				header_image: headerImageLink[0],
 			});
 		}
 
@@ -142,10 +148,10 @@ function Create() {
 							onChange={(e) => {
 								setHackathonInfo({
 									...hackathonInfo,
-									location: e.target.value,
+									venue: e.target.value,
 								});
 							}}
-							value={hackathonInfo.location}
+							value={hackathonInfo.venue}
 						/>
 					</FormGroup>
 					<FormGroup className="w-100 mb-3">
@@ -246,13 +252,13 @@ function Create() {
 								onChange={(e) => {
 									setHackathonInfo({
 										...hackathonInfo,
-										startDate: e.target.value,
+										event_date: e.target.value,
 									});
 								}}
 							/>
 						</FormGroup>
 						<FormGroup className="w-50 mb-3">
-							<FormLabel>Event End Date</FormLabel>
+							{/* <FormLabel>Event End Date</FormLabel>
 							<FormControl
 								type="datetime-local"
 								onChange={(e) => {
@@ -261,7 +267,7 @@ function Create() {
 										endDate: e.target.value,
 									});
 								}}
-							/>
+							/> */}
 						</FormGroup>
 					</div>
 					<div className="d-flex justify-content-between">
@@ -272,7 +278,7 @@ function Create() {
 								onChange={(e) => {
 									setHackathonInfo({
 										...hackathonInfo,
-										registrationStartDate: e.target.value,
+										registration_start: e.target.value,
 									});
 								}}
 							/>
@@ -284,7 +290,7 @@ function Create() {
 								onChange={(e) => {
 									setHackathonInfo({
 										...hackathonInfo,
-										registrationEndDate: e.target.value,
+										registration_end: e.target.value,
 									});
 								}}
 							/>
@@ -299,7 +305,7 @@ function Create() {
 								onChange={(e) => {
 									setHackathonInfo({
 										...hackathonInfo,
-										minTeamSize: e.target.value,
+										min_team_size: e.target.value,
 									});
 								}}
 							/>
@@ -312,7 +318,7 @@ function Create() {
 								onChange={(e) => {
 									setHackathonInfo({
 										...hackathonInfo,
-										maxTeamSize: e.target.value,
+										max_team_size: e.target.value,
 									});
 								}}
 							/>
@@ -378,7 +384,10 @@ function Create() {
 										onChange={(e) => {
 											setHackathonInfo({
 												...hackathonInfo,
-												screeningRoundStartDate: e.target.value,
+												screeningData: {
+													...hackathonInfo.screeningData,
+													start_date: e.target.value,
+												},
 											});
 										}}
 									/>
@@ -390,7 +399,10 @@ function Create() {
 										onChange={(e) => {
 											setHackathonInfo({
 												...hackathonInfo,
-												screeningRoundEndDate: e.target.value,
+												screeningData: {
+													...hackathonInfo.screeningData,
+													end_date: e.target.value,
+												},
 											});
 										}}
 									/>
