@@ -21,21 +21,20 @@ export default function Home() {
 		closed: [],
 		upcoming: [],
 	});
-  const router = useRouter();
+	const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axiosClient.get('/hackathon/list');
-        setHackathons(res.data)
-				setTimeout(() => seggregateHackathons(res.data), 500)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  }, [])
-  
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await axiosClient.get("/hackathon/list");
+				setHackathons(res.data);
+				setTimeout(() => seggregateHackathons(res.data), 500);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchData();
+	}, []);
 
 	const seggregateHackathons = (hackathons) => {
 		let openHackathons = [];
@@ -43,8 +42,11 @@ export default function Home() {
 		let upcomingHackathons = [];
 
 		hackathons.forEach((hackathon) => {
-			const { event_date: event_start, registration_start, registration_end } =
-				hackathon;
+			const {
+				event_date: event_start,
+				registration_start,
+				registration_end,
+			} = hackathon;
 			console.log(event_start, registration_start, registration_end);
 			const today = moment().format("YYYY-MM-DD");
 			console.log(moment("2023-02-17").isBetween("2023-02-16", "2023-02-18"));
@@ -67,7 +69,7 @@ export default function Home() {
 		});
 	};
 
-  if (!hackathons) return null;
+	if (!hackathons) return null;
 
 	return (
 		<div
