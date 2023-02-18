@@ -33,7 +33,7 @@ function RegistrationTable({registrations, refresh = null}) {
               </td>
               <td>
                 {!team.screening_submitted && !team.shortlisted && (<Badge bg="danger">Not Submitted</Badge>)}
-                {team.screening_submitted && !team.shortlisted && (<Badge bg="warning">Not Submitted</Badge>)}
+                {team.screening_submitted && !team.shortlisted && (<Badge bg="warning">Submitted</Badge>)}
                 {team.shortlisted && (<Badge bg="success">Shortlisted</Badge>)}
               </td>
               <td>

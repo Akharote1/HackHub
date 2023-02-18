@@ -73,7 +73,7 @@ function TeamDetailsModal({ show, onClose, team }) {
         )}
 
         {team.screening_submitted && team.abstract_text && (
-          <Card className="p-3">
+          <Card className="p-3 mb-2">
             <div className="fw-bold mb-3">Abstract Submission</div>
             <p>
               {team.abstract_text}
@@ -86,7 +86,7 @@ function TeamDetailsModal({ show, onClose, team }) {
         )}
 
         {team.screening_submitted && team.presentation_link && (
-          <Card className="p-3">
+          <Card className="p-3 mb-2">
             <div className="fw-bold mb-3">Presentation Link</div>
             <a href={team.presentation_link} target="_blank" rel="noreferrer">
               View Presentation

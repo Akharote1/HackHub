@@ -1,45 +1,43 @@
-import { Router } from "express"
+import { Router } from "express";
 import { body, validationResult } from "express-validator";
 import authenticate from "../middleware/authenticate.js";
 import validateInput from "../middleware/validate.js";
-import * as UserController from "./../controllers/User.js"
+import * as UserController from "./../controllers/User.js";
 
-const router = Router()
+const router = Router();
 
-router.post('/register', 
-  body('name').isString().isLength(2, 64),
-  body('email').isEmail().toLowerCase(),
-  body('phone').isMobilePhone(),
-  body('password').isString().isLength({ min: 6, max: 64 }),
-  body('college').optional().isString(),
-  body('gender').optional().default('unknown').isString(),
-  validateInput,
-  (req, res) => UserController.register(req, res)
-)
+router.post(
+	"/register",
+	body("name").isString().isLength(2, 64),
+	body("email").isEmail().toLowerCase(),
+	body("gender").toLowerCase(),
+	body("password").isString().isLength({ min: 6, max: 64 }),
+	body("college").optional().isString(),
+	// body("gender").optional().default("unknown").isString(),
+	// validateInput,
+	(req, res) => UserController.register(req, res)
+);
 
-router.post('/login', 
-  body('email').isEmail().toLowerCase(),
-  body('password').isString().isLength({ min: 6, max: 64 }),
-  validateInput,
-  (req, res) => UserController.login(req, res)
-)
+router.post(
+	"/login",
+	body("email").isEmail().toLowerCase(),
+	body("password").isString().isLength({ min: 6, max: 64 }),
+	validateInput,
+	(req, res) => UserController.login(req, res)
+);
 
-router.get('/find',
-  (req, res) => UserController.find(req, res)
-)
+router.get("/find", (req, res) => UserController.find(req, res));
 
-router.get('/listings',
-  authenticate,
-  (req, res) => UserController.myListings(req, res)
-)
-
+router.get("/listings", authenticate, (req, res) =>
+	UserController.myListings(req, res)
+);
 
 // router.get('/data',
 //   authenticate,
 //   (req, res) => UserController.userData(req, res)
 // )
 
-// router.post('/update/:id', 
+// router.post('/update/:id',
 //   authenticate,
 //   body('email').optional().isEmail().toLowerCase(),
 //   body('name').optional().isString().isLength(2, 64),

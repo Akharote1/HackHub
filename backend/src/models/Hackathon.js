@@ -37,10 +37,9 @@ const screeningSchema = new mongoose.Schema({
 		required: true,
 		default: false,
 	},
-	guidelines_url: {
+	guidelines_text: {
 		type: String,
-		required: true,
-		default: false
+		default: ""
 	}
 })
 

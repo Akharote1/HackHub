@@ -15,7 +15,6 @@ import ViewPSModal from "../../../components/registrations/ViewPSModal";
 
 const Event = () => {
   const router = useRouter();
-
   const [isPSModalVisible, setPSModalVisible] = useState(false);
   const [eventData, setEventData] = useState(null);
   const [teamData, setTeamData] = useState(null);
@@ -86,7 +85,7 @@ const Event = () => {
 
       <div className="d-flex justify-content-center px-4 py-3 align-items-center text-center ">
         <Card
-          style={{ height: "auto", width: "100%", maxWidth: "1028px" }}
+          style={{ height: "auto", width: "100%", maxWidth: "1292px" }}
           className="shadow"
         >
           <Container className="d-flex justify-content-start align-items-center flex-row mt-2 border-none">
@@ -98,7 +97,9 @@ const Event = () => {
               value={moment(eventData.registration_end).format('DD/MM/YY HH:mm')}
             />
 
-            <HighlightItem icon={faMapMarker} name="Location" value="Online" />
+            <HighlightItem icon={faMapMarker} name="Location" value={
+              eventData.online ? "Online" : eventData.venue
+            } />
 
             <span className="ms-auto px-3 text-secondary">{eventData.registration_count} registered</span>
 
