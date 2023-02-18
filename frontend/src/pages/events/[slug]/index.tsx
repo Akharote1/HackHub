@@ -9,7 +9,7 @@ import Link from "next/link";
 import Chip from "../../../components/common/Chip";
 import axiosClient from "../../../services/axios-client";
 import { useUser } from "../../../hooks/AuthContext";
-import moment from 'moment'
+import moment from "moment";
 import { faWpforms } from "@fortawesome/free-brands-svg-icons";
 import ViewPSModal from "../../../components/registrations/ViewPSModal";
 
@@ -177,26 +177,26 @@ const Event = () => {
 };
 
 const HighlightItem = ({ icon, name, value }) => {
-  return (
-    <div className="d-flex align-items-center justify-item-center flex-column px-3 border-end">
-      <div
-        className="d-flex align-items-center h-100 text-secondary fw-semibold"
-        style={{ fontSize: "12px" }}
-      >
-        <FontAwesomeIcon
-          className="text-primary"
-          style={{ width: "28px" }}
-          icon={icon}
-        />
-        {name}
-      </div>
-      <span className="fw-semibold">{value}</span>
-    </div>
-  );
+	return (
+		<div className="d-flex align-items-center justify-item-center flex-column px-3 border-end">
+			<div
+				className="d-flex align-items-center h-100 text-secondary fw-semibold"
+				style={{ fontSize: "12px" }}
+			>
+				<FontAwesomeIcon
+					className="text-primary"
+					style={{ width: "28px" }}
+					icon={icon}
+				/>
+				{name}
+			</div>
+			<span className="fw-semibold">{value}</span>
+		</div>
+	);
 };
 
 Event.getLayout = (page) => {
-  return <>{page}</>;
+	return <>{page}</>;
 };
 
 export default Event;

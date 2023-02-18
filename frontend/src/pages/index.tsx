@@ -118,7 +118,7 @@ export default function Home() {
 								<HackathonCard key={index} hackathon={hackathon} />
 							))
 						) : (
-							<div>No Upcoming Hackathons Available</div>
+							<h5 className="mb-5">No Upcoming Hackathons Available</h5>
 						)}
 					</div>
 				</div>
@@ -139,7 +139,7 @@ export default function Home() {
 								<HackathonCard key={index} hackathon={hackathon} />
 							))
 						) : (
-							<h5>No closed Hackathons Available</h5>
+							<h5 className="mb-5">No closed Hackathons Available</h5>
 						)}
 					</div>
 				</div>

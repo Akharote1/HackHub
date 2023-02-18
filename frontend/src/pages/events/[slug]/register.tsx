@@ -36,6 +36,7 @@ function HackRegister() {
 	const [partemail, setpartemailInfo] = useState([
 		{
 			email: user?.user?.email,
+			resumeFile: null
 		},
 	]);
 	const fetchHackathon = async () => {
@@ -43,13 +44,17 @@ function HackRegister() {
 		console.log(response.data);
 		setHackathon(response.data.event);
 	};
-	const [mode, setMode] = useState("online");
-	const { domains } = organization;
-	const participants = [1, 2, 3, 4, 5];
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
+		console.log("submitting");
+		const urls = []
+
+		for (let i = 0; i < partemail.length; i++) {
+			console.log(partemail[i])
+			urls.push(await uploadFilesToCloud([partemail[i].resumeFile], "resume/"))
+		}
+
 		const temp = await Promise.all(
 			partemail.map(async (item) => {
 				let url;

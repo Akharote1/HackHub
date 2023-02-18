@@ -20,6 +20,7 @@ function DropFileUpload({
         accept={accept ?? {
           'image/png': ['.png'],
           'image/jpg': ['.jpg', '.jpeg'],
+          'application/pdf': ['.pdf'],
         }}
       >
         {({getRootProps, getInputProps}) => (
