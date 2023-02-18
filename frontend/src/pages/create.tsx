@@ -16,8 +16,8 @@ import { Button } from "react-bootstrap";
 function Create() {
 	const [hackathonInfo, setHackathonInfo] = useState({
 		name: "",
-		posterImage: "",
-		headerImage: "",
+		poster_image: "",
+		header_image: "",
 		location: "",
 		mode: "",
 		domain: new Set(),
@@ -60,8 +60,8 @@ function Create() {
 			);
 			setHackathonInfo({
 				...hackathonInfo,
-				posterImage: posterImageLink[0],
-				headerImage: headerImageLink[0],
+				poster_image: posterImageLink[0],
+				header_image: headerImageLink[0],
 			});
 		}
 

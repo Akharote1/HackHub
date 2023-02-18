@@ -53,7 +53,7 @@ function ListingsTable() {
                   </Button>
                 </Link>
 
-                <Link href={'/hackathon/' + listing.slug}>
+                <Link href={'/events/' + listing.slug}>
                   <Button className="ms-4">
                     View Listing
                   </Button>

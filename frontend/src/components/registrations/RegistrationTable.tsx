@@ -1,7 +1,12 @@
-import { Badge, Table } from "react-bootstrap";
+import { Badge, Button, Table } from "react-bootstrap";
 import { getUserAvatar } from "../../utils";
+import { useEffect, useState } from "react";
+import TeamDetailsModal from "./TeamDetailsModal";
 
-function RegistrationTable({registrations}) {
+function RegistrationTable({registrations, refresh = null}) {
+  const [teamModalVisible, setTeamModalVisible] = useState(false);
+  const [teamData, setTeamData] = useState(null);
+
   return (
     <div>
       <Table>
@@ -9,6 +14,7 @@ function RegistrationTable({registrations}) {
           <tr>
             <th>#</th>
             <th>Team Name</th>
+            <th>Score</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -21,13 +27,40 @@ function RegistrationTable({registrations}) {
                 <TeamDataItem team={team} />
               </td>
               <td>
-                <Badge>Shortlisted</Badge>
+                {team.scores.technical_knowledge
+                  + team.scores.idea + team.scores.practicality + team.scores.feasibility}
+                  /40
               </td>
-              <td>@mdo</td>
+              <td>
+                {!team.screening_submitted && !team.shortlisted && (<Badge bg="danger">Not Submitted</Badge>)}
+                {team.screening_submitted && !team.shortlisted && (<Badge bg="warning">Not Submitted</Badge>)}
+                {team.shortlisted && (<Badge bg="success">Shortlisted</Badge>)}
+              </td>
+              <td>
+                <Button
+                  onClick={() => {
+                    setTeamData(team)
+                    setTeamModalVisible(true)
+                  }}
+                >
+                  View
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+
+      {teamData && (
+        <TeamDetailsModal
+          show={teamModalVisible}
+          team={teamData}
+          onClose={(success) => {
+            setTeamModalVisible(false)
+            if (refresh) refresh()
+          }}
+        />
+      )}
     </div>
   )
 }

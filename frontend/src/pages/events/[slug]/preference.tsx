@@ -2,11 +2,38 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import problem_statement from "../../../../data/problem_statement.json";
 import Badge from "react-bootstrap";
+import { useUser } from "../../../hooks/AuthContext";
+import { useRouter } from "next/router";
+import axiosClient from "../../../services/axios-client";
 
 const Preference = () => {
 	const dragItem = useRef();
 	const dragOverItem = useRef();
 	const [list, setList] = useState([]);
+
+	const [hackathonData, setHackathonData] = useState(null);
+  const {user} = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user || !router.isReady) return;
+    const fetchData = async () => {
+      try {
+        const res = await axiosClient.get('/hackathon/view/'+router.query.slug);
+        setHackathonData(res.data.event)
+				setList(res.data.event.ps_list.map((x, index) => {
+					const y = {...x}
+					y.id = index;
+					return y;
+				}))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchData()
+  }, [user, router.isReady])
+  
 
 	const dragStart = (e, position) => {
 		dragItem.current = position;
@@ -26,13 +53,7 @@ const Preference = () => {
 		setList(copyListItems);
 	};
 
-	useEffect(() => {
-		const listItems = problem_statement.statements.map((item, index) => ({
-			...item,
-			id: index,
-		}));
-		setList(listItems);
-	}, []);
+  if (hackathonData == null) return null;
 
 	return (
 		<div
@@ -52,10 +73,9 @@ const Preference = () => {
 				}}
 			>
 				<h3 className="mb-5">
-					Preference Of the Problem Statement for the Hackathon (Drag and Drop)
+					Problem Statement Preference for the {hackathonData.name} (Drag and Drop)
 				</h3>
-				{list &&
-					list.map((item, index) => (
+				{list.map((item, index) => (
 						<div
 							style={{
 								margin: "15px",
@@ -95,7 +115,13 @@ const Preference = () => {
 				<Button
 					className="mt-4"
 					style={{
-						fontSize: "18px",
+						fontSize: "18px"
+					}}
+					onClick={async () => {
+						await axiosClient.post('/team/submit-preferences/'+router.query.slug, {
+							preferences: list.map(x => x.id)
+						});
+						router.push(`/events/${router.query.slug}`)
 					}}
 				>
 					Submit Preference

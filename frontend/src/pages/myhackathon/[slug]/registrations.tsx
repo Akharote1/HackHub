@@ -14,6 +14,10 @@ const Registrations = function () {
   const {user} = useUser();
   const router = useRouter();
 
+  const filters = ['all','screening-submitted','shortlisted','ps-filled','submitted']
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     if (!user || !router.isReady) return;
     const fetchData = async () => {
@@ -28,7 +32,7 @@ const Registrations = function () {
     fetchData()
   }, [user])
   
-  if (!registrations) return null;
+  if (registrations == null) return null;
 
   const downloadSheet = () => {
     const rows = [];
@@ -53,15 +57,24 @@ const Registrations = function () {
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet(rows);
 
-    // const max_width1 = rows.reduce((w, r) => Math.max(w, r['Sr No.'].length), 10);
-    // const max_width2 = rows.reduce((w, r) => Math.max(w, r.Name.length), 10);
-    // const max_width3 = rows.reduce((w, r) => Math.max(w, r.Description.length), 10);
-    // const max_width4 = rows.reduce((w, r) => Math.max(w, r.Amount.length), 10);
-    // worksheet["!cols"] = [max_width1, max_width2, max_width3, max_width4].map(w => ({ wch: w }));
-    
     XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
     XLSX.writeFile(workbook, "hackathon_registrations.xlsx");
   }
+
+  const filteredResults = registrations.filter(reg => {
+    if (selectedFilter == 'all' && searchQuery.trim() == '') return true;
+    if (selectedFilter == 'shortlisted' && !reg.shortlisted) return false;
+    if (selectedFilter == 'screening-submitted' && !reg.screening_submitted) return false;
+
+    const q = searchQuery.trim().toLowerCase()
+
+    if (q == '') return true;
+    if (reg.team_name.toLowerCase().includes(q)) return true;
+    if (reg.members[0].user_id.name.toLowerCase().includes(q)) return true;
+
+    return false;
+  })
+  
 
   return (
     <div className="p-5">
@@ -80,25 +93,40 @@ const Registrations = function () {
           <Form.Control 
             type='text'
             placeholder='Search Items'
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
             style={{ maxWidth: '768px' }}
           />
         </InputGroup>
 
-        <div className='ms-3'>
-          <Button
-            className='btn-md d-flex align-items-center'
-            variant='success'
-            onClick={downloadSheet}
-          >
-            <FontAwesomeIcon icon={faDownload} className='me-3' />
-            <span>Download</span>
-          </Button>
-        </div>
+        <Form.Select className="mb-3 ms-4"
+          value={selectedFilter}
+          onChange={(e) => setSelectedFilter(e.target.value)}
+        >
+          {filters.map(filter => (
+            <option key={filter} value={filter}>{filter}</option>
+          ))}
+        </Form.Select>
       </div>
 
-      <Card>
-        <RegistrationTable registrations={registrations} />
+      <div>
+        <Button
+          className='btn-md d-flex align-items-center'
+          variant='success'
+          onClick={downloadSheet}
+        >
+          <FontAwesomeIcon icon={faDownload} className='me-3' />
+          <span>Download</span>
+        </Button>
+      </div>
+
+      <Card className="mt-4">
+        <RegistrationTable registrations={filteredResults} 
+          refresh={async () => {
+            const res = await axiosClient.get('/hackathon/registrations/'+router.query.slug);
+            setRegistrations(res.data.registrations)
+          }}
+        />
       </Card>
     </div>
   )

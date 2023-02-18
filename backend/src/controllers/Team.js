@@ -92,6 +92,120 @@ export const register = async (req, res) => {
 export const submitScreening = async (req, res) => {
   try {
     const user = req.user;
+    const event = await Hackathon.findOne({ slug: req.params.slug });
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+    
+    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id });
+    
+    if (team.screening_submitted) {
+      return (
+        res.send({
+          success: false,
+          message: "The screening round has already been submitted"
+        })
+      )
+    }
+
+    team.abstract_text = req.body.abstract_text ?? "";
+
+    team.presentation_link = req.body.presentation_link ?? ""
+
+    team.screening_submitted = true;
+
+    await team.save()
+
+    return res.status(200).json({
+      success: true,
+      message: "Submitted screening round!"
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const submitPreferences = async (req, res) => {
+  try {
+    const user = req.user;
+    const event = await Hackathon.findOne({ slug: req.params.slug });
+    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id });
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    team.ps_preferences = req.body.preferences;
+
+    await team.save()
+
+    return res.status(200).json({
+      success: true,
+      message: "Submitted preferences!",
+      team
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const findTeam = async (req, res) => {
+  try {
+    const user = req.user;
+    const event = await Hackathon.findOne({ slug: req.params.slug });
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+
+    const team = await Team.findOne({ hackathon_id: event._id, "members.user_id": user._id });
+
+    return res.status(200).json({
+      success: true,
+      team
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const updateScores = async (req, res) => {
+  try {
+    const user = req.user;
     const team = await Team.findOne({ _id: req.params.teamID });
     const event = await Hackathon.findOne({ _id: team.hackathon_id });
 
@@ -104,48 +218,83 @@ export const submitScreening = async (req, res) => {
       )
     }
     
-    if (team.screening_submitted) {
-      return (
-        res.send({
-          success: false,
-          message: "The screening round has already been submitted"
-        })
-      )
-    }
-
-    if (event.screening.abstract_required) {
-      if (!req.body.abstract_text) {
-        return (
-          res.send({
-            success: false,
-            message: "Abstract is required"
-          })
-        )
-      } else {
-        team.abstract_text = req.body.abstract_text
-      }
-    }
-
-    if (event.screening.presentation_required) {
-      if (!req.body.presentation_link) {
-        return (
-          res.send({
-            success: false,
-            message: "Presentation is required"
-          })
-        )
-      } else {
-        team.presentation_link = req.body.presentation_link
-      }
-    }
-
-    team.screening_submitted = true;
+    team.scores = req.body.scores;
 
     await team.save()
 
     return res.status(200).json({
       success: true,
-      message: "Submitted screening round!"
+      message: "Updated scores!"
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const shortlist = async (req, res) => {
+  try {
+    const user = req.user;
+    const team = await Team.findOne({ _id: req.params.teamID });
+    const event = await Hackathon.findOne({ _id: team.hackathon_id });
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+    
+    team.shortlisted = true;
+    event.shortlist_count += 1;
+
+    await team.save()
+
+    return res.status(200).json({
+      success: true,
+      message: "Shortlisted team!"
+    })
+
+  } catch (err) {
+    console.log(err)
+
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred.'
+    })
+  }
+}
+
+export const rollback = async (req, res) => {
+  try {
+    const user = req.user;
+    const team = await Team.findOne({ _id: req.params.teamID });
+    const event = await Hackathon.findOne({ _id: team.hackathon_id });
+
+    if (!event) {
+      return (
+        res.send({
+          success: false,
+          message: "That event does not exist"
+        })
+      )
+    }
+    
+    team.shortlisted = false;
+    event.shortlist_count -= 1;
+
+    await team.save()
+
+    return res.status(200).json({
+      success: true,
+      message: "Rollbacked team!"
     })
 
   } catch (err) {

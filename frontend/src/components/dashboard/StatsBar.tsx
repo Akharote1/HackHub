@@ -22,7 +22,7 @@ export default function StatsBar({statistics}) {
 
       <Col xs={3}>
         <Card className="p-4">
-          <span className=" fs-1">24</span>
+          <span className=" fs-1">{statistics.shortlist_count}</span>
           <span className=" fw-semibold text-black-50 fs-5">
             <FontAwesomeIcon 
               icon={faCheckCircle}

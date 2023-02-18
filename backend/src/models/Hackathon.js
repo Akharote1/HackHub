@@ -49,6 +49,24 @@ const communicationSchema = new mongoose.Schema({
 		type: mongoose.SchemaTypes.Date,
 		default: new Date(),
 		required: true
+	},
+	subject: {
+		type: String,
+		required: true
+	},
+	content: {
+		type: String,
+		required: true
+	},
+	target: {
+		type: String,
+		required: true,
+		enum: ["shortlisted", "not-shortlisted", "registered", "final-submitted", "final-not-submitted", "screening-submitted", "screening-not-submitted"]
+	},
+	target_size: {
+		type: Number,
+		required: true,
+		default: 0
 	}
 })
 
@@ -144,6 +162,10 @@ const eventSchema = new mongoose.Schema({
 		required: true,
 		default: 4
 	},
+	shortlist_count: {
+		type: Number,
+		default: 0
+	},
 	registration_count: {
 		type: Number,
 		default: 0
@@ -163,6 +185,17 @@ const eventSchema = new mongoose.Schema({
 	ps_release_date: mongoose.SchemaTypes.Date,
 	ps_form_start: mongoose.SchemaTypes.Date,
 	ps_form_end: mongoose.SchemaTypes.Date,
+	ps_list_released: {
+		type: Boolean,
+		required: true,
+		default: false
+	},
+	
+	ps_form_released: {
+		type: Boolean,
+		required: true,
+		default: false
+	},
 	ps_list: {
 		required: true,
 		default: [],

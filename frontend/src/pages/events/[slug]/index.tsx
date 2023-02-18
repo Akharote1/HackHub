@@ -1,4 +1,4 @@
-import { faClock, faMapMarker } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faEye, faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect, useContext } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
@@ -10,11 +10,15 @@ import Chip from "../../../components/common/Chip";
 import axiosClient from "../../../services/axios-client";
 import { useUser } from "../../../hooks/AuthContext";
 import moment from 'moment'
+import { faWpforms } from "@fortawesome/free-brands-svg-icons";
+import ViewPSModal from "../../../components/registrations/ViewPSModal";
 
 const Event = () => {
   const router = useRouter();
 
+  const [isPSModalVisible, setPSModalVisible] = useState(false);
   const [eventData, setEventData] = useState(null);
+  const [teamData, setTeamData] = useState(null);
   const {user} = useUser();
 
   useEffect(() => {
@@ -23,6 +27,8 @@ const Event = () => {
       try {
         const res = await axiosClient.get('/hackathon/view/'+router.query.slug);
         setEventData(res.data.event)
+        const res2 = await axiosClient.get('/team/find/'+router.query.slug);
+        setTeamData(res2.data.team)
       } catch (error) {
         console.log(error)
       }
@@ -50,10 +56,10 @@ const Event = () => {
             opacity: "0.5",
             objectFit: "cover",
             objectPosition: "center",
-            filter: "blur(8px)",
+            // filter: "blur(8px)",
             position: "absolute",
           }}
-          src="https://via.placeholder.com/1535x420"
+          src={eventData.header_image}
         />
 
         <h1
@@ -96,17 +102,51 @@ const Event = () => {
 
             <span className="ms-auto px-3 text-secondary">{eventData.registration_count} registered</span>
 
-            <Link href={`/events/${eventData.slug}/register`}>
-              {" "}
-              <Button className="me-3">
-                {"Register Now"}
-              </Button>
-            </Link>
+            {!teamData && (
+              <Link href={`/events/${eventData.slug}/register`}>
+                {" "}
+                <Button className="me-3">
+                  {"Register Now"}
+                </Button>
+              </Link>
+            )}
+
+            {teamData && ("You have already registered")}
           </Container>
+          
           <div className="d-flex justify-content-center align-items-center flex-row mt-2">
             {eventData.domains.map(domain => (
               <Chip key={domain} name={domain} />
             ))}
+          </div>
+
+          <div className="mb-3 mt-2">
+            {eventData.ps_list_released && (
+              <Button className="me-3" onClick={() => setPSModalVisible(true)}>
+                <FontAwesomeIcon icon={faEye} className="me-2" />
+                View Problem Statements
+              </Button>
+            )}
+
+            {teamData && !teamData.shortlisted && (
+              <Link href={teamData?.screening_submitted ? '#' : `/events/${router.query.slug}/abstractsub`}>
+                <Button disabled={teamData?.screening_submitted} className="me-3">
+                  <FontAwesomeIcon icon={faWpforms} className="me-2" />
+                  {teamData?.screening_submitted ? 'Already Submitted' : 'Make Screening Submission'}
+                  
+                </Button>
+              </Link>
+            )}
+
+            {eventData.ps_form_released && teamData && (
+              <Link href={teamData?.ps_preferences ? '#' : `/events/${router.query.slug}/preference`}>
+                <Button disabled={teamData?.ps_preferences}>
+                  <FontAwesomeIcon icon={faWpforms} className="me-2" />
+                  {teamData?.ps_preferences ? 'PS Preference Filled' : 'Fill PS Preferences'}
+                  
+                </Button>
+              </Link>
+            )}
           </div>
         </Card>
       </div>
@@ -125,6 +165,11 @@ const Event = () => {
             </p>
           </Card>
         </Container>
+        <ViewPSModal 
+          show={isPSModalVisible}
+          onClose={setPSModalVisible}
+          statements={eventData.ps_list}
+        />
       </div>
     </>
   );

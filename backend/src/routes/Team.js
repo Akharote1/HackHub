@@ -14,11 +14,40 @@ router.post('/register/:slug',
   (req, res) => TeamController.register(req, res)
 )
 
-router.post('/submit-screening/:teamID', 
+router.post('/submit-screening/:slug', 
+  authenticate,
   body('abstract_text').optional().isString(),
   body('presentation_link').optional().isString(),
   validateInput,
   (req, res) => TeamController.submitScreening(req, res)
+)
+
+router.get('/find/:slug', 
+  authenticate,
+  validateInput,
+  (req, res) => TeamController.findTeam(req, res)
+)
+
+router.post('/submit-preferences/:slug', 
+  authenticate,
+  body('preferences').isArray(),
+  validateInput,
+  (req, res) => TeamController.submitPreferences(req, res)
+)
+
+router.post('/update-scores/:teamID',
+  validateInput,
+  (req, res) => TeamController.updateScores(req, res)
+)
+
+router.post('/shortlist/:teamID',
+  validateInput,
+  (req, res) => TeamController.shortlist(req, res)
+)
+
+router.post('/rollback/:teamID',
+  validateInput,
+  (req, res) => TeamController.rollback(req, res)
 )
 
 const TeamRouter = router;

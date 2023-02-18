@@ -9,26 +9,29 @@ import { faAdd, faEdit, faSave, faTrash } from "@fortawesome/free-solid-svg-icon
 
 const Statements = function () {
   const [statements, setStatements] = useState(null);
+  const [statementsData, setStatementsData] = useState(null);
   const [statementsEdit, setStatementsEdit] = useState(null);
   const [isEditing, setEditing] = useState(false);
   const {user} = useUser();
   const router = useRouter();
 
+  const fetchData = async () => {
+    try {
+      const res = await axiosClient.get('/hackathon/ps/'+router.query.slug);
+      setStatementsData(res.data)
+      setStatements(res.data.statements)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (!user || !router.isReady) return;
-    const fetchData = async () => {
-      try {
-        const res = await axiosClient.get('/hackathon/ps/'+router.query.slug);
-        setStatements(res.data.statements)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
+  
     fetchData()
   }, [user])
   
-  if (!statements) return null;
+  if (statements == null) return null;
 
   return (
     <div className="p-5">
@@ -86,6 +89,34 @@ const Statements = function () {
             Cancel
           </Button>
         )}
+      </div>
+
+      <div className="mb-4"> 
+        <Form.Check 
+          type="switch"
+          label="Problem Statements Released"
+          checked={statementsData.ps_list_released}
+          onChange={async (e) => {
+            await axiosClient.post('/hackathon/ps-setting/' + router.query.slug, {
+              ...statementsData,
+              ps_list_released: e.target.checked
+            })
+            await fetchData()
+          }}
+        />
+
+        <Form.Check 
+          type="switch"
+          label="Problem Statements Preference Form Released"
+          checked={statementsData.ps_form_released}
+          onChange={async (e) => {
+            await axiosClient.post('/hackathon/ps-setting/' + router.query.slug, {
+              ...statementsData,
+              ps_form_released: e.target.checked
+            })
+            await fetchData()
+          }}
+        />
       </div>
 
       <div>

@@ -29,7 +29,7 @@ const Dashboard = function () {
     fetchData()
   }, [user])
   
-  if (!statistics) return null;
+  if (statistics == null) return null;
 
   return (
     <div className="p-5 w-100">

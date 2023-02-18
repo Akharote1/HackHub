@@ -1,5 +1,6 @@
 import { Badge, Table } from "react-bootstrap";
 import { getUserAvatar } from "../../utils";
+import moment from "moment"
 
 function CommunicationTable({communications}) {
   return (
@@ -10,20 +11,20 @@ function CommunicationTable({communications}) {
             <th>Date</th>
             <th>Subject</th>
             <th>Target</th>
-            <th>Actions</th>
+            <th>Content</th>
           </tr>
         </thead>
         <tbody>
-          {communications.map((team, index) => (
+          {communications.map((comm, index) => (
             <tr key={index}>
-              <td>{index + 1}</td>
+              <td>{moment(comm.date).format('HH:mm, DD/MM/YYYY')}</td>
               <td>
-                <TeamDataItem team={team} />
+                {comm.subject}
               </td>
               <td>
-                <Badge>Shortlisted</Badge>
+                {comm.target} ({comm.target_size} people)
               </td>
-              <td>@mdo</td>
+              <td>{comm.content}</td>
             </tr>
           ))}
         </tbody>
@@ -32,25 +33,4 @@ function CommunicationTable({communications}) {
   )
 }
 
-function TeamDataItem({team}) {
-  return (
-    <div className="d-flex align-items-center">
-      <img 
-        className=" rounded-circle me-3"
-        style={{width: 36, height: 36}}
-        src={getUserAvatar(team.team_name)}
-      />
-
-      <div className="d-flex flex-column text-black-50" style={{fontSize: '14px'}}>
-        <b className="text-black" style={{fontSize: '14px'}}>{team.team_name}</b>
-        {team.members.map(member => (
-          <span key={member._id}>
-            {member.user_id.name} | {member.user_id.email}  | {member.user_id.phone} | {member.user_id.gender}  
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-export default RegistrationTable;
+export default CommunicationTable;

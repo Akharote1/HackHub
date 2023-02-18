@@ -35,7 +35,34 @@ const teamSchema = new mongoose.Schema({
 	},
 	shortlisted: {
 		type: Boolean,
-		default: false
+		default: false,
+		required: true
+	},
+	scores: {
+		type: new mongoose.Schema({
+			technical_knowledge: {
+				type: Number,
+				required: true,
+				default: 0
+			},
+			idea: {
+				type: Number,
+				required: true,
+				default: 0
+			},
+			practicality: {
+				type: Number,
+				required: true,
+				default: 0
+			},
+			feasibility: {
+				type: Number,
+				required: true,
+				default: 0
+			}
+		}),
+		required: true,
+		default: {}
 	}
 })
 
